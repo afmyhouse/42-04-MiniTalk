@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/18 15:22:41 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/19 14:37:48 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	handler_signals(int signal)
 	if (i == 8)
 	{
 		ft_putchar_fd(c, 1);
-		
 		c = 0;
 		i = 0;
 	}

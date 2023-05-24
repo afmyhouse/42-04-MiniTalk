@@ -6,11 +6,17 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 14:52:10 by antoda-s          #+#    #+#              #
-#    Updated: 2023/05/18 14:52:12 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/05/19 16:48:09 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minitalk.a
+
+VPATH = src include
+
+vpath %.c ./src
+
+vpath %.h ./include
 
 CC = cc
 
@@ -26,11 +32,11 @@ all: $(CLIENT) $(SERVER)
 
 $(SERVER):
 	$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) server.c $(LIBFT) -o server
+	$(CC) $(CFLAGS) server.c $(LIBFT) -o $@
 
 $(CLIENT):
 	$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) client.c $(LIBFT) -o client
+	$(CC) $(CFLAGS) client.c $(LIBFT) -o $@
 
 
 clean:
@@ -46,3 +52,5 @@ bonus:
 	$(MAKE) -C ./libft
 	$(CC) $(CFLAGS) client_bonus.c $(LIBFT) -o client_bonus
 	$(CC) $(CFLAGS) server_bonus.c $(LIBFT) -o server_bonus
+
+.PHONY: all clean
