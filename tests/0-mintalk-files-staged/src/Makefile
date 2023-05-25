@@ -6,47 +6,53 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 14:52:10 by antoda-s          #+#    #+#              #
-#    Updated: 2023/05/25 16:04:48 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/05/25 16:35:15 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -g
+NAME = minitalk.a
 
-BIN			:= bin
-SRC			:= src
-INCLUDE		:= inc
-LIBRARIES	:= lib
+VPATH = src include
 
-SRCS		:= $(wildcard $(SRC)/*.c)
+vpath %.c ./src
 
-EXECUTABLE	:= main
+vpath %.h ./include
 
-OBJS		= $(SRCS:.c=.o)
+CC = cc
 
-INPUT1 = teste
-INPUT2 = 6
+CFLAGS = -Wall -Werror -Wextra
 
-all: $(BIN)/$(EXECUTABLE) clean
+LIBFT = ./libft/libft.a
 
-$(BIN)/$(EXECUTABLE): $(OBJS)
-	@echo Compiling…
-	@$(CC) $(CFLAGS) $^ -o $@
-#	@$(CC) $(CFLAGS) -I$(INCLUDE) $^ -o $@ $(LIBRARIES)
+CLIENT = client
 
-run: fclean all
-	clear
-	@echo Clear screen...
-	@echo Runing...
-#	@$(BIN)/$(EXECUTABLE)
-	@$(BIN)/$(EXECUTABLE) "$(INPUT1)" "$(INPUT2)"
+SERVER = server
+
+SERVER_CLIENT = server_client
+
+all: $(SERVER_CLIENT)
+
+$(SERVER_CLIENT):
+	$(MAKE) -C ./libft
+	$(CC) $(CFLAGS) server_client.c $(LIBFT) -o $@
+
+$(CLIENT):
+	$(MAKE) -C ./libft
+	$(CC) $(CFLAGS) client.c $(LIBFT) -o $@
+
 
 clean:
-	@echo Cleaning Objs...
-	@rm -f $(OBJS)
+	$(MAKE) clean -C ./libft
+	rm -rf client server client_bonus server_bonus
 
 fclean: clean
-	@echo Cleaning Executable...
-	@rm -f $(BIN)/$(EXECUTABLE)
+	$(MAKE) fclean -C ./libft
 
-.PHONY: all clean run fclean
+re: fclean all
+
+bonus:
+	$(MAKE) -C ./libft
+	$(CC) $(CFLAGS) client_bonus.c $(LIBFT) -o client_bonus
+	$(CC) $(CFLAGS) server_bonus.c $(LIBFT) -o server_bonus
+
+.PHONY: all clean
