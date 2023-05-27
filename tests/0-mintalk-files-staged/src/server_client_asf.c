@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server_client.c                                    :+:      :+:    :+:   */
+/*   server_client_asf.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/25 16:37:01 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/25 23:23:44 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	msg_rcv(int signal)
+void	handler_signals(int signal)
 {
 	static int		i = 0;
 	static char		c = 0;
@@ -46,8 +46,8 @@ int	main(void)
 	pid = getpid();
 	ft_printf("PID = %d\n", pid);
 	// usar estas 2 functions dentro do while
-	signal(SIGUSR1,msg_rcv);
-	signal(SIGUSR2,msg_rcv);
+	signal(SIGUSR1,handler_signals);
+	signal(SIGUSR2,handler_signals);
 	while (1)
 		pause();
 	return (0);

@@ -6,80 +6,71 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/18 18:04:33 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/26 12:33:17 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include "libft/libft.h"
-#include <sys/types.h>
-#include <signal.h>
-
-void	original_handler(int signal)
+#include <stdio.h>
+/*
+void	handler_signals(int signal)
 {
 	static int	i = 0;
 	static char	c = 0;
 
+	ft_printf("[B%i].[%d]", i, (signal & 2) >> 1);
 	if (signal == SIGUSR1)
 		c |= (1 << i);
 	i++;
 	if (i == 8)
 	{
 		ft_putchar_fd(c, 1);
-
 		c = 0;
 		i = 0;
 	}
-}
-
-/*void	handler(int signal)
+}*//**/
+void	handler_signals(int signal)
 {
-	static int	i = 0;
-	static char	c = 0;
-	static char *str;
-	static char *tmp;
-	static int	char_counter = 1;
+	static int		i = 0;
+	static char		c = 0;
+	static char		*msg;
+	static char		*tmp;
 
 	if (signal == SIGUSR1)
 		c |= (1 << i);
 	i++;
 	if (i == 8)
 	{
-
-		i = 0;
-		str = (char *)malloc(sizeof(char) * char_counter + 1);
-		str[char_counter] = '\0';
-		while (i <= char_counter)
+		if (!c)
 		{
-			str[i] = tmp[i];
-			i++;
-		}
-		free(tmp);
-		tmp = str;
-		str[i] = c;
-		if (c != '\n')
-		{
-			ft_printf("%s", str);
-			free(str);
-			char_counter = 0;
+			ft_putstr_fd(msg, 1);
+			if (msg)
+			{
+				free (msg);
+				msg = NULL;
+			}
 		}
 		else
-			char_counter++;
+		{
+			tmp = msg;
+			msg = ft_charjoin(msg, c);
+			if (tmp)
+				free (tmp);
+		}
 		c = 0;
 		i = 0;
 	}
 }
-*/
+
 void	config_signals(void)
 {
-	struct sigaction	newDisp;
-	struct sigaction	prevDisp;
+	struct sigaction	sigact;
 
-	newDisp.sa_handler = &handler;
-	newDisp.sa_flags = SA_SIGINFO;
-	if (sigaction(SIGUSR1, &newDisp, &prevDisp) == -1)
+	sigact.sa_handler = &handler_signals;
+	sigact.sa_flags = SA_SIGINFO;
+	if (sigaction(SIGUSR1, &sigact, NULL) == -1)
 		ft_printf("Error SIGUSR1");
-	if (sigaction(SIGUSR2, &newDisp, &prevDisp) == -1)
+	if (sigaction(SIGUSR2, &sigact, NULL) == -1)
 		ft_printf("Error SIGUSR2");
 }
 
@@ -89,9 +80,6 @@ int	main(void)
 
 	pid = getpid();
 	ft_printf("PID = %d\n", pid);
-	ft_printf("SIGUSR1C = %c\n", SIGUSR1);
-	ft_printf("SIGUSR2C = %c\n", SIGUSR2);
-
 	config_signals();
 	while (1)
 		pause();

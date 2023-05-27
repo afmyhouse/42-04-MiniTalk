@@ -6,42 +6,47 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 14:52:10 by antoda-s          #+#    #+#              #
-#    Updated: 2023/05/25 21:27:41 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/05/25 16:04:48 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minitalk.a
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror -g
 
-CC = cc
-CFLAGS = -Wall -Werror -Wextra
+BIN			:= bin
+SRC			:= src
+INCLUDE		:= inc
+LIBRARIES	:= lib
 
-LIBFT = ./libft/libft.a
+SRCS		:= $(wildcard $(SRC)/*.c)
 
-CLIENT = client
+EXECUTABLE	:= main
 
-SERVER = server
+OBJS		= $(SRCS:.c=.o)
 
-all: $(CLIENT) $(SERVER)
+INPUT1 = teste
+INPUT2 = 6
 
-$(SERVER):
-	$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) server.c $(LIBFT) -o server
+all: $(BIN)/$(EXECUTABLE) clean
 
-$(CLIENT):
-	$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) client.c $(LIBFT) -o client
+$(BIN)/$(EXECUTABLE): $(OBJS)
+	@echo Compiling…
+	@$(CC) $(CFLAGS) $^ -o $@
+#	@$(CC) $(CFLAGS) -I$(INCLUDE) $^ -o $@ $(LIBRARIES)
 
+run: fclean all
+	clear
+	@echo Clear screen...
+	@echo Runing...
+#	@$(BIN)/$(EXECUTABLE)
+	@$(BIN)/$(EXECUTABLE) "$(INPUT1)" "$(INPUT2)"
 
 clean:
-	$(MAKE) clean -C ./libft
-	rm -rf client server client_bonus server_bonus
+	@echo Cleaning Objs...
+	@rm -f $(OBJS)
 
 fclean: clean
-	$(MAKE) fclean -C ./libft
+	@echo Cleaning Executable...
+	@rm -f $(BIN)/$(EXECUTABLE)
 
-re: fclean all
-
-bonus:
-	$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) client_bonus.c $(LIBFT) -o client_bonus
-	$(CC) $(CFLAGS) server_bonus.c $(LIBFT) -o server_bonus
+.PHONY: all clean run fclean
