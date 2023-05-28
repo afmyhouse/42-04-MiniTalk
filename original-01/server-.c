@@ -1,54 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server_bonus.c                                     :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 14:51:49 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/18 14:51:51 by antoda-s         ###   ########.fr       */
+/*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/05/28 21:28:44 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include <stdio.h>
 
-void	handler_signals(int signal, siginfo_t *info, void *ucontent)
+void	msg_rx(unsigned char c)
 {
-	static int				i = 0;
-	static pid_t			client_pid = 0;
-	static unsigned char	c = 0;
+	static char	*msg;
+	static char	*tmp;
 
-	(void)ucontent;
-	if (!client_pid)
-		client_pid = info->si_pid;
+	if (!c)
+	{
+		ft_putstr_fd(msg, 1);
+		if (msg)
+		{
+			free (msg);
+			msg = NULL;
+		}
+	}
+	else
+	{
+		tmp = msg;
+		msg = ft_charjoin(msg, c);
+		if (tmp)
+			free (tmp);
+	}
+}
+
+void	handler_signals(int signal)
+{
+	static int		i = 0;
+	static char		c = 0;
+
 	if (signal == SIGUSR1)
-		c |= 1;
+		c |= (1 << i);
 	i++;
 	if (i == 8)
 	{
-		i = 0;
-		if (!c)
-		{
-			kill(client_pid, SIGUSR1);
-			client_pid = 0;
-			return ;
-		}
-		ft_putchar_fd(c, 1);
+		msg_rx(c);
 		c = 0;
-		kill(client_pid, SIGUSR2);
+		i = 0;
 	}
-	else
-		c = c << 1;
 }
 
 void	config_signals(void)
 {
 	struct sigaction	sigact;
 
-	sigact.sa_sigaction = &handler_signals;
+	sigact.sa_handler = &handler_signals;
 	sigact.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &sigact, 0);
-	sigaction(SIGUSR2, &sigact, 0);
 	if (sigaction(SIGUSR1, &sigact, NULL) == -1)
 		ft_printf("Error SIGUSR1");
 	if (sigaction(SIGUSR2, &sigact, NULL) == -1)

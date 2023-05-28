@@ -6,57 +6,47 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/26 12:33:17 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/28 21:28:44 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <stdio.h>
-/*
-void	handler_signals(int signal)
-{
-	static int	i = 0;
-	static char	c = 0;
 
-	ft_printf("[B%i].[%d]", i, (signal & 2) >> 1);
-	if (signal == SIGUSR1)
-		c |= (1 << i);
-	i++;
-	if (i == 8)
+void	msg_rx(unsigned char c)
+{
+	static char	*msg;
+	static char	*tmp;
+
+	if (!c)
 	{
-		ft_putchar_fd(c, 1);
-		c = 0;
-		i = 0;
+		ft_putstr_fd(msg, 1);
+		if (msg)
+		{
+			free (msg);
+			msg = NULL;
+		}
 	}
-}*//**/
+	else
+	{
+		tmp = msg;
+		msg = ft_charjoin(msg, c);
+		if (tmp)
+			free (tmp);
+	}
+}
+
 void	handler_signals(int signal)
 {
 	static int		i = 0;
 	static char		c = 0;
-	static char		*msg;
-	static char		*tmp;
 
 	if (signal == SIGUSR1)
 		c |= (1 << i);
 	i++;
 	if (i == 8)
 	{
-		if (!c)
-		{
-			ft_putstr_fd(msg, 1);
-			if (msg)
-			{
-				free (msg);
-				msg = NULL;
-			}
-		}
-		else
-		{
-			tmp = msg;
-			msg = ft_charjoin(msg, c);
-			if (tmp)
-				free (tmp);
-		}
+		msg_rx(c);
 		c = 0;
 		i = 0;
 	}

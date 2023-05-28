@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:47:10 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/19 14:58:12 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/28 19:10:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	send_msg(pid_t pid, char *msg)
 				kill(pid, SIGUSR2);
 			c = c >> 1;
 			bit--;
-			usleep(100);
+			usleep(200);
 		}
 		msg++;
 	}
