@@ -1,5 +1,5 @@
 # 42-04-MiniTalk
-Mini Talk
+## Mini Talk
 Project instructions
 
 Name your executable files client and server.
