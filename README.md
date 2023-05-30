@@ -10,7 +10,7 @@ Your program mustn’t have memory leaks.
 You can have one global variable per program (one for the client and one for the server), but you will have to justify their use.
 In order to complete the mandatory part, you are allowed to use the following functions: 
 
-library       function
+library       \t function
 
 libft.h       ft_printf
 
@@ -44,7 +44,8 @@ libft
 
 
 
-Mandatory Part
+### Mandatory Part
+#### Mandatory task list
 You must create a communication program in the form of a client and a server.
 • The server must be started first. After its launch, it has to print its PID.
 • The client takes two parameters:
@@ -63,4 +64,12 @@ Once the string has been received, the server must print it.
 Linux system does NOT queue signals when you already have pending signals of this type! Bonus time?
 
 
-
+### Bonus part
+#### Bonus task list:
+• The server acknowledges every message received by sending back a signal to the
+client.
+• Unicode characters support!
+The bonus part will only be assessed if the mandatory part is
+PERFECT. Perfect means the mandatory part has been integrally done
+and works without malfunctioning. If you have not passed ALL the
+mandatory requirements, your bonus part will not be evaluated at all.
