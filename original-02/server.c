@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/30 00:34:42 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/30 16:24:03 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	msg_rx_nfb(char *c, int *cli_pid, int *bit)
 {
-	ft_putchar_fd(*c, 1);
+	if (*c > 0)
+		ft_putchar_fd(*c, 1);
 	if (*c == '\0')
 	{
 		if (kill(*cli_pid, SIGUSR1) == -1)

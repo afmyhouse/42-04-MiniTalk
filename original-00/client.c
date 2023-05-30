@@ -6,42 +6,38 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 17:43:42 by aymoulou          #+#    #+#             */
-/*   Updated: 2023/05/30 15:49:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/30 01:29:55 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	signal_error(void)
-{
-	ft_printf("\n%sError transmiting!.%s\n", RED, WTH);
-	exit(1);
-}
-
-void	char_to_signals(char c, int pid)
+void	char_to_signals(unsigned char c, int pid)
 {
 	int	bit;
 
 	bit = 0;
-	if (c >= 0)
+	while (bit < 8)
 	{
-		while (bit < 8)
+		if (c & 128)
 		{
-			if (c & 128)
+			if (kill(pid, SIGUSR1) == -1)
 			{
-				if (kill(pid, SIGUSR1) == -1)
-					signal_error();
+				ft_printf("\n%sError transmiting!.%s\n", RED, WTH);
+				exit(1);
 			}
-			else
-			{
-				if (kill(pid, SIGUSR2) == -1)
-					signal_error();
-			}
-			c <<= 1;
-			bit++;
-			pause();
-			usleep(50);
 		}
+		else
+		{
+			if (kill(pid, SIGUSR2) == -1)
+			{
+				ft_printf("\n%sError transmiting!.%s\n", RED, WTH);
+				exit(1);
+			}
+		}
+		c <<= 1;
+		bit++;
+		pause();
 	}
 }
 
@@ -67,7 +63,6 @@ int	main(int ac, char **av)
 
 	if (ac == 3)
 	{
-		ft_printf("%sMESSAGE : READY %s\n", YLW, WTH);
 		signal(SIGUSR1, signal_rx);
 		signal(SIGUSR2, signal_rx);
 		server_pid = ft_atoi(av[1]);

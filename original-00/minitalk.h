@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:47:54 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/30 15:53:54 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/30 01:40:14 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <signal.h>
 # include <unistd.h>
 # include <sys/types.h>
-# include <bits/signum-arch.h>
 # include "libft/libft.h"
 
 # define RED "\033[0;31m"

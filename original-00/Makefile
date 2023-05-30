@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 14:52:10 by antoda-s          #+#    #+#              #
-#    Updated: 2023/05/30 16:19:15 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/05/30 01:35:25 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@
 NAME = minitalk.a
 CLIENT = client
 SERVER = server
-CLIENT_B = client_bonus
-SERVER_B = server_bonus
+CLIENT_BONUS = client_bonus
+SERVER_BONUS = server_bonus
 
 #Compiling Variables:
 CC 			= cc
@@ -27,16 +27,16 @@ LIBFT = ./libft/libft.a
 LIBFTDIR = ./libft
 
 #Directory paths when compiling and required:
-#DBIN		:= bin
-#DSRC		:= src
-#DINCS		:= inc
-#DLIBS		:= lib
+DBIN		:= bin
+DSRC		:= src
+DINCS		:= inc
+DLIBS		:= lib
 
 #Sources
-SERVER_SRC		:= server.c
-CLIENT_SRC		:= client.c
-SERVER_B_SRC	:= server_bonus.c
-CLIENT_B_SRC	:= client_bonus.c
+SERVER_SRC	:= server.c
+CLIENT_SRC	:= client.c
+SERVER_BONUS_SRC	:= server_bonus.c
+CLIENT_BONUS_SRC	:= client_bonus.c
 
 #Colors:
 GRN		=	\e[38;5;118m
@@ -51,21 +51,21 @@ _INFO		=	[$(YLW)INFO$(WTH)]
 
 #COMPILE = $(CC) $(CFLAGS) $(INCLUDES)
 
-all: $(CLIENT) $(SERVER)
+all: executables
+#$(CLIENT) $(SERVER)
 
-$(SERVER): $(LIBFT)
+executables: $(LIBFT)
+#$(SERVER): $(LIBFT)
+#	$(MAKE) -C ./libft
 	@echo "$(_INFO)"
-	@echo "[$(BLU)Project MANDATORY : compile $(GRN)$(@) file$(WTH)]"
-	@$(CC) $(CFLAGS) $(SERVER_SRC) $(LIBFT) -o $@
+	@echo "[$(BLU)Project MANDATORY : compile executables files$(WTH)]"
+	$(CC) $(CFLAGS) server.c $(LIBFT) -o $(SERVER)
+	$(CC) $(CFLAGS) client.c $(LIBFT) -o $(CLIENT)
+#	@$(CC) $(CFLAGS) -I$(INCLUDE) $^ -o $@ $(LIBRARIES)
 	@echo "$(_SUCCESS)"
 	@echo
 
-$(CLIENT): $(LIBFT)
-	@echo "$(_INFO)"
-	@echo "[$(BLU)Project MANDATORY : compile $(GRN)$(@) file$(WTH)]"
-	@$(CC) $(CFLAGS) $(CLIENT_SRC) $(LIBFT) -o $@
-	@echo "$(_SUCCESS)"
-	@echo
+
 
 $(LIBFT):
 	@echo "$(_INFO)"
@@ -86,10 +86,10 @@ clean:
 	@echo "$(CLIENT) file removed!!"
 	@$(RM) $(SERVER)
 	@echo "$(SERVER) file removed!!"
-	@$(RM) $(CLIENT_B)
-	@echo "$(CLIENT_B) file removed!!"
-	@$(RM) $(SERVER_B)
-	@echo "$(SERVER_B) file removed!!"
+	@$(RM) $(CLIENT_BONUS)
+	@echo "$(CLIENT_BONUS) file removed!!"
+	@$(RM) $(SERVER_BONUS)
+	@echo "$(SERVER_BONUS) file removed!!"
 	@echo "$(_SUCCESS)"
 	@echo
 
@@ -102,20 +102,14 @@ fclean: clean
 
 re: fclean all
 
-bonus: $(CLIENT_B) $(SERVER_B)
+bonus: bonus_executables
 
-$(SERVER_B): $(LIBFT)
+bonus_executables: $(LIBFT)
 	@echo "$(_INFO)"
-	@echo "[$(BLU)Project BONUS : compile $(GRN)$(@) file$(WTH)]"
-	@$(CC) $(CFLAGS) $(SERVER_B_SRC) $(LIBFT) -o $@
+	@echo "[$(BLU)Project BONUS: compile executables files$(WTH)]"
+	$(CC) $(CFLAGS) $(CLIENT_BONUS_SRC) $(LIBFT) -o $(CLIENT_BONUS)
+	$(CC) $(CFLAGS) $(SERVER_BONUS_SRC) $(LIBFT) -o $(SERVER_BONUS)
 	@echo "$(_SUCCESS)"
 	@echo
 
-$(CLIENT_B): $(LIBFT)
-	@echo "$(_INFO)"
-	@echo "[$(BLU)Project BONUS : compile $(GRN)$(@) file$(WTH)]"
-	@$(CC) $(CFLAGS) $(CLIENT_B_SRC) $(LIBFT) -o $@
-	@echo "$(_SUCCESS)"
-	@echo
-
-.PHONY: all clean fclean re bonus
+.PHONY: all executables clean fclean re bonus bonus_executables

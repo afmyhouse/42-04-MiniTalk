@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server_bonus.c                                     :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/30 16:23:39 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/30 00:34:42 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	msg_rx(char *c, int *char_rx, int *cli_pid, int *bit)
+void	msg_rx_nfb(char *c, int *cli_pid, int *bit)
 {
 	ft_putchar_fd(*c, 1);
-	*char_rx += 1;
 	if (*c == '\0')
 	{
-		ft_printf("\n%s%d Characters received from CLIENT PID: %d%s\n",
-			GRN, *char_rx, *cli_pid, WTH);
-		*char_rx = 0;
-		*c = 0;
 		if (kill(*cli_pid, SIGUSR1) == -1)
 		{
-			ft_printf("\n%sserver: unexpected error.%s\n", RED, WTH);
+			ft_printf("\n%sServer error!%s\n", RED, WTH);
 			exit(1);
 		}
 		return ;
 	}
+	*c = 0;
 	*bit = 0;
 }
 
@@ -38,7 +34,6 @@ void	signal_handler(int signium, siginfo_t *info, void *context)
 	static int	cur_pid;
 	static int	bit;
 	static char	c;
-	static int	char_rx;
 
 	(void)context;
 	cur_pid = info->si_pid;
@@ -49,12 +44,11 @@ void	signal_handler(int signium, siginfo_t *info, void *context)
 		cli_pid = cur_pid;
 		bit = 0;
 		c = 0;
-		char_rx = 0;
 	}
 	c |= (signium == SIGUSR1);
 	bit++;
 	if (bit == 8)
-		msg_rx(&c, &char_rx, &cli_pid, &bit);
+		msg_rx_nfb(&c, &cli_pid, &bit);
 	c <<= 1;
 	usleep(50);
 	kill(cli_pid, SIGUSR2);
