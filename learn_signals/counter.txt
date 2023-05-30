@@ -1,3 +1,0 @@
-13 data.txt
-2 data.txt
-1 data.txt
