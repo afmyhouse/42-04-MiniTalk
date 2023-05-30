@@ -6,16 +6,14 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/30 01:12:49 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/30 01:42:37 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <stdio.h>
 
 void	msg_rx(char *c, int *char_rx, int *cli_pid, int *bit)
 {
-	//kill(*cli_pid, SIGUSR2);
 	ft_putchar_fd(*c, 1);
 	*char_rx += 1;
 	if (*c == '\0')
@@ -72,7 +70,6 @@ int	main(void)
 	sig_act.sa_sigaction = signal_handler;
 	sigemptyset(&sig_act.sa_mask);
 	sig_act.sa_flags = SA_SIGINFO;
-
 	while (1)
 	{
 		if (sigaction(SIGUSR1, &sig_act, NULL) == -1)

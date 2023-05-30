@@ -6,11 +6,17 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 17:43:42 by aymoulou          #+#    #+#             */
-/*   Updated: 2023/05/30 01:14:09 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/30 01:26:19 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+void	signal_error(void)
+{
+	ft_printf("\n%sError transmiting!.%s\n", RED, WTH);
+	exit(1);
+}
 
 void	char_to_signals(unsigned char c, int pid)
 {
@@ -22,18 +28,12 @@ void	char_to_signals(unsigned char c, int pid)
 		if (c & 128)
 		{
 			if (kill(pid, SIGUSR1) == -1)
-			{
-				ft_printf("\n%sError transmiting!.%s\n", RED, WTH);
-				exit(1);
-			}
+				signal_error();
 		}
 		else
 		{
 			if (kill(pid, SIGUSR2) == -1)
-			{
-				ft_printf("\n%sError transmiting!.%s\n", RED, WTH);
-				exit(1);
-			}
+				signal_error();
 		}
 		c <<= 1;
 		bit++;

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 17:43:42 by aymoulou          #+#    #+#             */
-/*   Updated: 2023/05/30 00:27:55 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/30 01:29:55 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	main(int ac, char **av)
 		server_pid = ft_atoi(av[1]);
 		ft_printf("%sMESSAGE : transmitting... %s\n", YLW, WTH);
 		sent_text(av[2], server_pid);
-
 	}
 	else
 		ft_printf("%sArguments? -> ./client server_pid \"text to send\"%s\n",

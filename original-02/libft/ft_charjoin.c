@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 00:28:11 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/26 00:57:22 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/30 01:29:01 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ char	*ft_charjoin(char const *s1, char const c)
 	size_t	len;
 	char	*dest;
 
-	if (!s1 && !c){
+	if (!s1 && !c)
 		return (NULL);
-	}
 	if (s1)
 		len = ft_strlen(s1) + sizeof(c) + 1;
 	else

@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 14:52:10 by antoda-s          #+#    #+#              #
-#    Updated: 2023/05/29 23:07:05 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/05/30 01:35:25 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,3 +111,5 @@ bonus_executables: $(LIBFT)
 	$(CC) $(CFLAGS) $(SERVER_BONUS_SRC) $(LIBFT) -o $(SERVER_BONUS)
 	@echo "$(_SUCCESS)"
 	@echo
+
+.PHONY: all executables clean fclean re bonus bonus_executables
