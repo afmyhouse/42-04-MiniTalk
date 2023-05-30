@@ -1,6 +1,6 @@
 # 42-04-MiniTalk
 ## Mini Talk
-Project instructions
+### Project instructions
 
 Name your executable files client and server.
 You have to turn in a Makefile which will compile your source files. It must not relink.
