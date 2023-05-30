@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   ft_client.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymoulou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 17:43:42 by aymoulou          #+#    #+#             */
-/*   Updated: 2021/12/18 19:10:45 by aymoulou         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:02:03 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	signal_error(void)
 {
-	ft_printf("\n%sclient: unexpected error.%s\n", RED, END);
+	ft_printf("\n%sclient: unexpected error.%s\n", RD, END);
 	exit(EXIT_FAILURE);
 }
 
@@ -52,7 +52,7 @@ void	sent_text(char *str, int pid)
 	char_to_bin('\0', pid);
 }
 
-void	recieved(int sig)
+void	signal_rx(int sig)
 {
 	static int	sent;
 
@@ -73,15 +73,15 @@ int	main(int ac, char **av)
 	client_pid = getpid();
 	if (ac == 3)
 	{
-		ft_printf("%sclient pid: %d%s\n", RED, client_pid, END);
-		signal(SIGUSR1, recieved);
-		signal(SIGUSR2, recieved);
+		ft_printf("%sclient pid: %d%s\n", RD, client_pid, END);
+		signal(SIGUSR1, signal_rx);
+		signal(SIGUSR2, signal_rx);
 		server_pid = ft_atoi(av[1]);
 		ft_printf("%sText currently sending.. %s\n", YELLOW, END);
 		sent_text(av[2], server_pid);
 	}
 	else
 		ft_printf("%susage: ./client <server_pid> <text to send>%s\n",
-			RED, END);
+			RD, END);
 	return (EXIT_FAILURE);
 }

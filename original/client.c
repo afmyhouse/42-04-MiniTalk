@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:47:10 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/28 19:10:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:00:52 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	send_msg(pid_t pid, char *msg)
 		bit = 8;
 		while (bit > 0)
 		{
-			if (c & 0b00000001)
+			if (c & 1)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);

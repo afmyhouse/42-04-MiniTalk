@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/19 14:37:48 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:53:57 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handler_signals(int signal)
 	static char	c = 0;
 
 	if (signal == SIGUSR1)
-		c |= (1 << i);
+		c |= (1 << i); // siftw left 1 i times and OR to c
 	i++;
 	if (i == 8)
 	{

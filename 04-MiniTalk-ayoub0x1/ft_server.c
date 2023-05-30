@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 17:43:52 by aymoulou          #+#    #+#             */
-/*   Updated: 2023/05/28 21:28:03 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/05/30 01:13:52 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,19 @@
 
 void	display_banner(int pid)
 {
-	ft_printf("\n\t%s███╗   ███╗██╗███╗   ██╗██╗████████╗ █████╗ ██╗     ██╗██╗\
-			%s\n", YELLOW, END);
-	ft_printf("\t%s██╔████╔██║██║██╔██╗ ██║██║   ██║   ███████║██║     █████╔╝\
-			%s \n", YELLOW, END);
-	ft_printf("\t%s██║╚██╔╝██║██║██║╚██╗██║██║   ██║   ██╔══██║██║     ██╔═██╗\
-			%s \n", YELLOW, END);
-	ft_printf("\t%s██║ ╚═╝ ██║██║██║ ╚████║██║   ██║   ██║  ██║███████╗██║  ██╗\
-			%s\n", YELLOW, END);
-	ft_printf("\t%s╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝\
-			%s\n", YELLOW, END);
-	ft_printf("%s\n\t\tPID: %d%s\t\t\t%sBy: aymoulou%s\n", RED, pid, END,
-		YELLOW, END);
-	ft_printf("\t⊱ ────────────────────── {.⋅ ✯ ⋅.} ─────────────────────── ⊰\
+	ft_printf("\n\t%s███╗   ███╗██╗███╗   ██╗██╗ ████████╗ █████╗ ██╗     ██╗██╗%s", YELLOW, END);
+	ft_printf("\n\t%s██╔████╔██║██║██╔██╗ ██║██║    ██║   ███████║██║     █████╔╝%s", YELLOW, END);
+	ft_printf("\n\t%s██║╚██╔╝██║██║██║╚██╗██║██║    ██║   ██╔══██║██║     ██╔═██╗%s", YELLOW, END);
+	ft_printf("\n\t%s██║ ╚═╝ ██║██║██║ ╚████║██║    ██║   ██║  ██║███████╗██║  ██╗%s", YELLOW, END);
+	ft_printf("\n\t%s╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝    ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝%s", YELLOW, END);
+	ft_printf("\n%s\n\t\tPID: %d%s\t\t\t%sBy: aymoulou%s\n", RD, pid, END,YELLOW, END);
+	ft_printf("\n\t⊱ ────────────────────── {.⋅ ✯ ⋅.} ─────────────────────── ⊰\
 			\n\n");
 }
 
 void	signal_error(void)
 {
-	ft_printf("\n%sserver: unexpected error.%s\n", RED, END);
+	ft_printf("\n%sserver: unexpected error.%s\n", RD, END);
 	exit(EXIT_FAILURE);
 }
 
@@ -88,6 +82,7 @@ int	main(void)
 
 	pid = getpid();
 	display_banner(pid);
+
 	act.sa_sigaction = action;
 	sigemptyset(&act.sa_mask);
 	act.sa_flags = SA_SIGINFO;

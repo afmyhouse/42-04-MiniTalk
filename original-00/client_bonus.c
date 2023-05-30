@@ -1,54 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 14:51:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/28 21:47:38 by antoda-s         ###   ########.fr       */
+/*   Created: 2023/05/18 14:46:59 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/05/18 14:47:00 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minitalk.h"
 #include <stdio.h>
 
-void	msg_rx(unsigned char c)
+void	send_msg(pid_t pid, char *msg)
 {
-	static char	*msg;
-	static char	*tmp;
+	unsigned char	c;
+	int				i;
 
-	if (!c)
+	while (*msg)
 	{
-		ft_putstr_fd(msg, 1);
-		if (msg)
+		i = 8;
+		c = *msg;
+		while (i--)
 		{
-			free (msg);
-			msg = NULL;
+			if (c >> i & 1)
+				kill(pid, SIGUSR1);
+			else
+				kill(pid, SIGUSR2);
+			usleep(300);
 		}
+		msg++;
 	}
-	else
+	i = 8;
+	while (i--)
 	{
-		tmp = msg;
-		msg = ft_charjoin(msg, c);
-		if (tmp)
-			free (tmp);
+		kill(pid, SIGUSR2);
+		usleep(300);
 	}
 }
 
 void	handler_signals(int signal)
 {
-	static int		i = 0;
-	static char		c = 0;
+	static int	received = 0;
 
-	if (signal == SIGUSR1)
-		c |= (1 << i);
-	i++;
-	if (i == 8)
+	if (signal == SIGUSR2)
+		++received;
+	else
 	{
-		msg_rx(c);
-		c = 0;
-		i = 0;
+		ft_printf("Mensagem de %d, caracteres recebida", received);
+		ft_putchar_fd('\n', 1);
+		exit(0);
 	}
 }
 
@@ -58,22 +61,24 @@ void	config_signals(void)
 
 	sigact.sa_handler = &handler_signals;
 	sigact.sa_flags = SA_SIGINFO;
-	if (sigaction(SIGUSR1, &sigact, NULL) == -1)
-		ft_printf("Error SIGUSR1");
-	if (sigaction(SIGUSR2, &sigact, NULL) == -1)
-		ft_printf("Error SIGUSR2");
+	sigaction(SIGUSR1, &sigact, 0);
+	sigaction(SIGUSR2, &sigact, 0);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	pid_t	pid;
-	struct sigaction	sigact;
+	pid_t		pid;
+	char		*msg;
 
-	pid = getpid();
-	ft_printf("PID = %d\n", pid);
-
-	
+	if (argc != 3)
+	{
+		ft_printf("invalid arguments");
+		return (1);
+	}
+	pid = ft_atoi(argv[1]);
+	msg = argv[2];
 	config_signals();
+	send_msg(pid, msg);
 	while (1)
 		pause();
 	return (0);

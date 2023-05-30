@@ -5,58 +5,83 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 14:47:10 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/05/28 21:38:56 by antoda-s         ###   ########.fr       */
+/*   Created: 2021/12/10 17:43:42 by aymoulou          #+#    #+#             */
+/*   Updated: 2023/05/29 18:02:03 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	send_msg(pid_t pid, char *msg)
+void	signal_error(void)
 {
-	unsigned char	c;
-	int				bit;
+	ft_printf("\n%sclient: unexpected error.%s\n", RD, END_COLOR);
+	exit(EXIT_FAILURE);
+}
 
-	while (*msg)
+void	char_to_bin(unsigned char c, int pid)
+{
+	int	bit;
+
+	bit = 0;
+	while (bit < 8)
 	{
-		c = *msg;
-		bit = 8;
-		while (bit > 0)
+		if (c & 128)
 		{
-			if (c & 0b00000001)
-				kill(pid, SIGUSR1);
-			else
-				kill(pid, SIGUSR2);
-			c = c >> 1;
-			bit--;
-			usleep(300);
+			if (kill(pid, SIGUSR2) == -1)
+				signal_error();
 		}
-		msg++;
-	}
-	if (!*msg)
-	{
-		bit = 8;
-		while (bit > 0)
+		else
 		{
-			kill(pid, SIGUSR2);
-			bit--;
-			usleep(300);
+			if (kill(pid, SIGUSR1) == -1)
+				signal_error();
 		}
+		c <<= 1;
+		bit++;
+		pause();
+		usleep(100);
 	}
 }
 
-int	main(int argc, char **argv)
+void	sent_text(char *str, int pid)
 {
-	pid_t		pid;
-	char		*msg;
+	int	i;
 
-	if (argc != 3)
+	i = 0;
+	while (str[i])
+		char_to_bin(str[i++], pid);
+	char_to_bin('\0', pid);
+}
+
+void	signal_rx(int sig)
+{
+	static int	sent;
+
+	if (sig == SIGUSR1)
 	{
-		ft_printf("invalid arguments");
-		return (0);
+		ft_printf("%s%d signal sent successfully!%s\n", GREEN, ++sent, END_COLOR);
+		exit(EXIT_SUCCESS);
 	}
-	pid = ft_atoi(argv[1]);
-	msg = argv[2];
-	send_msg(pid, msg);
-	return (0);
+	if (sig == SIGUSR2)
+		++sent;
+}
+
+int	main(int ac, char **av)
+{
+	int	server_pid;
+	int	client_pid;
+
+	client_pid = getpid();
+	if (ac == 3)
+	{
+		ft_printf("%sclient pid: %d%s\n", RD, client_pid, END_COLOR);
+		signal(SIGUSR1, signal_rx);
+		signal(SIGUSR2, signal_rx);
+		server_pid = ft_atoi(av[1]);
+		ft_printf("%sText currently sending.. %s\n", YELLOW, END_COLOR);
+		sent_text(av[2], server_pid);
+	}
+	else
+		ft_printf("%susage: ./client <server_pid> <text to send>%s\n",
+			RD, END_COLOR);
+	return (EXIT_FAILURE);
 }
