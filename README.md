@@ -111,15 +111,16 @@ The following is a list of all signals with names as in the include file `<signa
 ```
 
 ## Resources
+- [Examine and Change Signal Action](https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigactn.html)
 - [Signal (IPC)](https://en.wikipedia.org/wiki/Signal_(IPC))
 - [Process (computing)](https://en.wikipedia.org/wiki/Process_(computing))
 - [Thread (computing)](https://en.wikipedia.org/wiki/Thread_(computing))
 - [How to use signal handlers in C](https://linuxhint.com/signal_handlers_c_programming_language/)
 - [signals](https://people.kth.se/~johanmon/ose/assignments/signals.pdf)
 - [How to Write Advanced Signal Handlers in UNIX](https://www.oracle.com/technical-resources/articles/it-infrastructure/dev-signal-handlers-studio.html)
-- [sigaction() - IBM docs](https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigactn.htm)
 - [What is the difference between sigaction and signal?](https://stackoverflow.com/questions/231912/what-is-the-difference-between-sigaction-and-signal)
-- [What is sigaction in C?](https://jameshfisher.com/2017/01/13/c-sigaction/)---|library |function|
+- [What is sigaction in C?](https://jameshfisher.com/2017/01/13/c-sigaction/)
+
 
 
 
