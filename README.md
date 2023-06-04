@@ -5,18 +5,16 @@
 #### Mandatory task list
 You must create a communication program in the form of a client and a server.
 - [ ] The server must be started first. After its launch, it has to print its PID.
-- [ ] The client takes two parameters:
-- [ ] The server PID.
-- [ ] The string to send.
+- [ ] The client takes two parameters: the server PID, the string to send (./client PID_NUMBER "string to send")
 - [ ] The client must send the string passed as a parameter to the server.
 - [ ] Once the string has been received, the server must print it.
 - [ ] The server has to display the string pretty quickly. 
-- [ ] Quickly means that if you think it takes too long, then it is probably too long.
-- [ ] 1 second for displaying 100 characters is way too much!
+        _Quickly means that if you think it takes too long, then it is probably too long._
+        _1 second for displaying 100 characters is way too much!_
 - [ ] Your server should be able to receive strings from several clients in a row without needing to restart.
 - [ ] The communication between your client and your server has to be done only using UNIX signals.
-- [ ] You can only use these two signals: SIGUSR1 and SIGUSR2.
-- [ ] Linux system does NOT queue signals when you already have pending signals of this type! Bonus time?
+        _You can only use these two signals: SIGUSR1 and SIGUSR2._
+        _Linux system does NOT queue signals when you already have pending signals of this type! Bonus time?_
 
 ### Bonus part
 #### Bonus task list:
@@ -41,7 +39,7 @@ If you have not passed ALL the mandatory requirements, your bonus part will not 
 
 ## Allowed Functions (manual)
 - [`write`](https://man7.org/linux/man-pages/man2/write.2.html)
-- [`ft_printf`](https://github.com/achrafelkhnissi/1337/tree/master/42curses/ft_printf) and any equivalent YOU coded
+- [`ft_printf`](https://github.com/afmyhouse/42-01-ft_printf) and any equivalent YOU coded
 - [`signal`](https://man7.org/linux/man-pages/man2/signal.2.html)
 - [`sigemptyset & sigaddset`](https://man7.org/linux/man-pages/man3/sigsetops.3.html)
 - [`sigaction`](https://man7.org/linux/man-pages/man2/sigaction.2.html)
